@@ -1,0 +1,86 @@
+version: '2'
+services:
+     goessinger.eu:
+          container_name: goessinger.eu
+          image: webdevops/apache:alpine
+          volumes:
+          - ../goessinger.eu/goessinger.eu/:/app
+          ports:
+          - "1080:80"
+          - "1443:443"
+          restart: always
+          environment:
+          - VIRTUAL_HOST=goessinger.eu
+     zahnarzt-friedrichshafen.de:
+          container_name: zahnarzt-friedrichshafen.de
+          image: webdevops/apache:alpine
+          volumes:
+          - ../zahnarzt-friedrichshafen.de/html/:/app
+          ports:
+          - "4080:80"
+          - "4443:443"
+          restart: always
+          environment:
+          - VIRTUAL_HOST=zahnarzt-friedrichshafen.de
+     sabnzbd:
+          container_name: sabnzbd
+          image: linuxserver/sabnzbd:latest
+          volumes:
+          - ../sabnzbd/config:/config
+          - ../sabnzbd/complete:/downloads
+          - ../sabnzbd/incomplete:/incomplete-downloads
+          ports:
+          - "5080:8080"
+          - "5090:8090"
+          environment:
+          - PGID=0
+          - PUID=0
+          - TZ=Europe/Berlin
+          - VIRTUAL_HOST=sabnzbd.goessinger.eu
+          - VIRTUAL_PORT=8080
+          restart: always
+     birding:
+          container_name: birding
+          build: ../birding/.
+          volumes:
+          - ../birding/html/:/app
+          - ../birding/scripts:/scripts
+          ports:
+          - "6080:80"
+          - "6443:443"
+          restart: always
+          environment:
+          - VIRTUAL_HOST=birding.goessinger.eu
+     proxy:
+          image: jwilder/nginx-proxy:alpine
+          container_name: proxy
+          ports:
+          - "80:80"
+          volumes:
+          - /var/run/docker.sock:/tmp/docker.sock:ro
+     mysql:
+          image: mysql:latest
+          container_name: mysql
+          environment:
+          - MYSQL_ROOT_PASSWORD=test
+          volumes:
+          - ../mysql/data/:/var/lib/mysql
+          restart: always
+     phpmyadmin:
+          image: phpmyadmin/phpmyadmin:latest
+          container_name: phpmyadmin
+          environment:
+          - PMA_ARBITRARY=1
+          restart: always
+          ports:
+          - 8080:80
+          volumes:
+          - /sessions
+          links:
+          - mysql:mysql
+     crawler:
+          build: ../crawler/.
+          container_name: crawler
+          links:
+          - mysql:mysql
+          restart: always
