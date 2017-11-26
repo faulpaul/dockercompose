@@ -79,8 +79,8 @@ services:
           links:
           - mysql:mysql
      crawler:
-          build: ../crawler/.
-          container_name: crawler
+          build: ../ornitho-crawler/.
+          container_name: ornitho-crawler
           links:
           - mysql:mysql
           restart: always
