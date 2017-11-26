@@ -62,7 +62,7 @@ services:
           image: mysql:latest
           container_name: mysql
           environment:
-          - MYSQL_ROOT_PASSWORD=test
+          - MYSQL_ROOT_PASSWORD=test #this will be changed of course
           volumes:
           - ../mysql/data/:/var/lib/mysql
           restart: always
