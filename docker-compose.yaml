@@ -4,7 +4,7 @@ services:
           container_name: goessinger.eu
           image: webdevops/apache:alpine
           volumes:
-          - ../goessinger.eu/goessinger.eu/:/app
+          - ../goessinger.eu/html/:/app
           ports:
           - "1080:80"
           - "1443:443"
