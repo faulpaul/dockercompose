@@ -1,29 +1,29 @@
 version: '2'
 services:
      goessinger.eu:
-          container_name: goessinger.eu
-          image: webdevops/apache:alpine
+          container_name: "goessinger.eu"
+          image: "webdevops/apache:alpine"
           volumes:
           - ../goessinger.eu/html/:/app
           ports:
           - "1080:80"
           - "1443:443"
-          restart: always
+          restart: "always"
           environment:
           - VIRTUAL_HOST=goessinger.eu
      zahnarzt-friedrichshafen.de:
-          container_name: zahnarzt-friedrichshafen.de
-          image: webdevops/apache:alpine
+          container_name: "zahnarzt-friedrichshafen.de"
+          image: "webdevops/apache:alpine"
           volumes:
           - ../zahnarzt-friedrichshafen.de/html/:/app
           ports:
           - "4080:80"
           - "4443:443"
-          restart: always
+          restart: "always"
           environment:
           - VIRTUAL_HOST=zahnarzt-friedrichshafen.de
      sabnzbd:
-          container_name: sabnzbd
+          container_name: "sabnzbd"
           image: linuxserver/sabnzbd:latest
           volumes:
           - ../sabnzbd/config:/config
@@ -38,9 +38,9 @@ services:
           - TZ=Europe/Berlin
           - VIRTUAL_HOST=sabnzbd.goessinger.eu
           - VIRTUAL_PORT=8080
-          restart: always
+          restart: "always"
      birding:
-          container_name: birding
+          container_name: "birding"
           build: ../birding/.
           volumes:
           - ../birding/html/:/app
@@ -48,7 +48,8 @@ services:
           ports:
           - "6080:80"
           - "6443:443"
-          restart: always
+          restart: "always"
+          network_mode: "host"
           environment:
           - VIRTUAL_HOST=birding.goessinger.eu
      proxy:
@@ -56,6 +57,7 @@ services:
           container_name: proxy
           ports:
           - "80:80"
+          restart: "always"
           volumes:
           - /var/run/docker.sock:/tmp/docker.sock:ro
      mysql:
@@ -65,13 +67,11 @@ services:
           - MYSQL_ROOT_PASSWORD=test #this will be changed
           volumes:
           - ../mysql/data/:/var/lib/mysql
-          restart: always
      phpmyadmin:
           image: phpmyadmin/phpmyadmin:latest
           container_name: phpmyadmin
           environment:
           - PMA_ARBITRARY=1
-          restart: always
           ports:
           - 8080:80
           volumes:
@@ -83,4 +83,3 @@ services:
           container_name: ornitho-crawler
           links:
           - mysql:mysql
-          restart: always
