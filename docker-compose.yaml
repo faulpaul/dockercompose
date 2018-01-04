@@ -45,11 +45,17 @@ services:
           volumes:
           - ../birding/html/:/app
           - ../birding/scripts:/scripts
+          restart: "always"
+          network_mode: "host"
+     birding_web:
+          container_name: "birding"
+          image: "webdevops/apache:alpine"
+          volumes:
+          - ../birding/html/:/app
           ports:
           - "6080:80"
           - "6443:443"
           restart: "always"
-          network_mode: "host"
           environment:
           - VIRTUAL_HOST=birding.goessinger.eu
      proxy:
