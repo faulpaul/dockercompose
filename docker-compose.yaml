@@ -82,5 +82,5 @@ services:
           image: gcr.io/tensorflow/tensorflow
           container_name: tensorflow
           volumes:
-          - ../tensorflow_data/
+          - ../tensorflow_data/:/data
           restart: "always"
