@@ -79,7 +79,7 @@ services:
           links:
           - mysql:mysql
      tensorflow:
-          image: gcr.io/tensorflow/tensorflow
+          image: gcr.io/tensorflow/tensorflow:latest-devel
           container_name: tensorflow
           volumes:
           - ../tensorflow_data/:/data
