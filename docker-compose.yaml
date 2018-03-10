@@ -11,17 +11,6 @@ services:
           restart: "always"
           environment:
           - VIRTUAL_HOST=goessinger.eu
-     zahnarzt-friedrichshafen.de:
-          container_name: "zahnarzt-friedrichshafen.de"
-          image: "webdevops/apache:alpine"
-          volumes:
-          - ../zahnarzt-friedrichshafen.de/html/:/app
-          ports:
-          - "4080:80"
-          - "4443:443"
-          restart: "always"
-          environment:
-          - VIRTUAL_HOST=zahnarzt-friedrichshafen.de
      sabnzbd:
           container_name: "sabnzbd"
           image: linuxserver/sabnzbd:latest
@@ -89,3 +78,9 @@ services:
           container_name: ornitho-crawler
           links:
           - mysql:mysql
+     tensorflow:
+          image: docker gcr.io/tensorflow/tensorflow
+          container_name: tensorflow
+          volumes:
+          - ../tensorflow_data/
+          restart: "always"
